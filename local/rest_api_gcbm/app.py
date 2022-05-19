@@ -186,62 +186,90 @@ def gcbm_upload():
     def fix_path(path):
         return os.path.basename(path.replace("\\", "/"))
 
-    # Process configuration files
-    if "config_files" in request.files:
-        for file in request.files.getlist("config_files"):
-            # Fix paths in provider_config
-            if file.filename == "provider_config.json":
-                provider_config = json.load(file)
-                provider_config["Providers"]["SQLite"]["path"] = fix_path(
-                    provider_config["Providers"]["SQLite"]["path"]
-                )
-                layers = []
-                for layer in provider_config["Providers"]["RasterTiled"]["layers"]:
-                    layer["layer_path"] = fix_path(layer["layer_path"])
-                    layers.append(layer)
-                provider_config["Providers"]["RasterTiled"]["layers"] = layers
-                with open(
-                    f"{os.getcwd()}/input/{project_dir}/provider_config.json", "w"
-                ) as pcf:
-                    json.dump(provider_config, pcf)
-            # Fix paths in modules_output
-            elif file.filename == "modules_output.json":
-                modules_output = json.load(file)
-                modules_output["Modules"]["CBMAggregatorSQLiteWriter"]["settings"][
-                    "databasename"
-                ] = "output/gcbm_output.db"
-                modules_output["Modules"]["WriteVariableGeotiff"]["settings"][
-                    "output_path"
-                ] = "output"
-                with open(
-                    f"{os.getcwd()}/input/{project_dir}/modules_output.json", "w"
-                ) as mof:
-                    json.dump(modules_output, mof)
-            else:
-                # Save file immediately
-                file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    if "disturbances" in request.files:
+      for file in request.files.getlist("disturbances"):
+          file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
     else:
-        return {"error": "Missing configuration file"}, 400
+      return{"error": "Missing configuration file"}, 400
 
-    # Save input
-    if "input" in request.files:
-        for file in request.files.getlist("input"):
-            # Save file immediately
-            file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    if "classifiers" in request.files:
+        for file in request.files.getlist("classifiers"):
+          file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
     else:
-        return {"error": "Missing input"}, 400
+      return{"error": "Missing configuration file"}, 400
 
-    # Save db
     if "db" in request.files:
         for file in request.files.getlist("db"):
-            # Save file immediately
             file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
     else:
-        return {"error": "Missing database"}, 400
+      return{"error": "Missing configuration file"}, 400
+
+    if "miscellaneous" in request.files:
+        for file in request.files.getlist("miscellaneous"):
+            file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    else:
+        return{"error": "Missing configuration file"}, 400
 
     return {
-        "data": "All files uploaded sucessfully. Proceed to the next step of the API at gcbm/dynamic."
-    }, 200
+       "data": "All files uploaded succesfully. Proceed to the next step of the API at gcbm/dynamic."
+  }
+
+    # # Process configuration files
+    # if "config_files" in request.files:
+    #     for file in request.files.getlist("config_files"):
+    #         # Fix paths in provider_config
+    #         if file.filename == "provider_config.json":
+    #             provider_config = json.load(file)
+    #             provider_config["Providers"]["SQLite"]["path"] = fix_path(
+    #                 provider_config["Providers"]["SQLite"]["path"]
+    #             )
+    #             layers = []
+    #             for layer in provider_config["Providers"]["RasterTiled"]["layers"]:
+    #                 layer["layer_path"] = fix_path(layer["layer_path"])
+    #                 layers.append(layer)
+    #             provider_config["Providers"]["RasterTiled"]["layers"] = layers
+    #             with open(
+    #                 f"{os.getcwd()}/input/{project_dir}/provider_config.json", "w"
+    #             ) as pcf:
+    #                 json.dump(provider_config, pcf)
+    #         # Fix paths in modules_output
+    #         elif file.filename == "modules_output.json":
+    #             modules_output = json.load(file)
+    #             modules_output["Modules"]["CBMAggregatorSQLiteWriter"]["settings"][
+    #                 "databasename"
+    #             ] = "output/gcbm_output.db"
+    #             modules_output["Modules"]["WriteVariableGeotiff"]["settings"][
+    #                 "output_path"
+    #             ] = "output"
+    #             with open(
+    #                 f"{os.getcwd()}/input/{project_dir}/modules_output.json", "w"
+    #             ) as mof:
+    #                 json.dump(modules_output, mof)
+    #         else:
+    #             # Save file immediately
+    #             file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    # else:
+    #     return {"error": "Missing configuration file"}, 400
+
+    # # Save input
+    # if "input" in request.files:
+    #     for file in request.files.getlist("input"):
+    #         # Save file immediately
+    #         file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    # else:
+    #     return {"error": "Missing input"}, 400
+
+    # # Save db
+    # if "db" in request.files:
+    #     for file in request.files.getlist("db"):
+    #         # Save file immediately
+    #         file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+    # else:
+    #     return {"error": "Missing database"}, 400
+
+    # return {
+    #     "data": "All files uploaded sucessfully. Proceed to the next step of the API at gcbm/dynamic."
+    # }, 200
 
 
 @app.route("/gcbm/dynamic", methods=["POST"])
