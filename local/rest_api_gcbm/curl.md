@@ -30,7 +30,17 @@ curl -F disturbances='@disturbances/disturbances_2011_moja.tiff' \
      -F db='@db/gcbm_input.db' \
      -F miscellaneous='@miscellaneous/initial_age_moja.tiff' \
      -F miscellaneous='@miscellaneous/mean_annual_temperature_moja.tiff' \
-     -F title="run5" \
+     -F templates='@templates/internal_variables.json' \
+     -F templates='@templates/localdomain.json' \
+     -F templates='@templates/modules_cbm.json' \
+     -F templates='@templates/modules_output.json' \
+     -F templates='@templates/pools_cbm.json' \
+     -F templates='@templates/provider_config.json' \
+     -F templates='@templates/spinup.json' \
+     -F templates='@templates/variables.json' \
+     -F templates='@templates/gcbm_config.cfg' \
+     -F templates='@templates/output' \
+     -F title="run10" \
      http://localhost:8080/gcbm/upload
 
     ```

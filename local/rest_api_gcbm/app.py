@@ -189,6 +189,8 @@ def gcbm_upload():
         os.makedirs(f"{os.getcwd()}/input/{project_dir}/db")
     if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/miscellaneous"):
         os.makedirs(f"{os.getcwd()}/input/{project_dir}/miscellaneous")
+    if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/config"):
+        os.makedirs(f"{os.getcwd()}/input/{project_dir}/templates")
 
     # Function to flatten paths
     def fix_path(path):
@@ -218,10 +220,42 @@ def gcbm_upload():
             file.save(f"{os.getcwd()}/input/{project_dir}/miscellaneous/{file.filename}")
     else:
         return{"error": "Missing configuration file"}, 400
+    
+    if "miscellaneous" in request.files:
+        for file in request.files.getlist("templates"):
+            file.save(f"{os.getcwd()}/input/{project_dir}/templates/{file.filename}")
+    else:
+        return{"error": "Missing configuration file"}, 400
+
+    get_modules_cbm(project_dir)
 
     return {
        "data": "All files uploaded succesfully. Proceed to the next step of the API at gcbm/dynamic."
   }
+
+def get_modules_cbm(project_dir):
+   print("asdf")
+   with open(f"{os.getcwd()}/input/{project_dir}/templates/modules_cbm.json", "r+") as pcf:
+       print(type(pcf))
+       print(pcf)
+       lst2 = []
+       for ob in f"{os.getcwd()}/input/{project_dir}/disturbances/":
+        file_name = ob.split('.')[0]
+        lst2.append(file_name)
+
+        # data = json.load(pcf)
+        # print(type(data))
+        # print(data)
+        
+
+        # data["Modules"]["CBMDisturbanceListener"]["settings"]["vars"] = lst2
+        
+
+    
+    
+
+
+
 
     # # Process configuration files
     # if "config_files" in request.files:
