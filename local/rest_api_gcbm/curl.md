@@ -30,7 +30,7 @@ curl -F disturbances='@disturbances/disturbances_2011_moja.tiff' \
      -F db='@db/gcbm_input.db' \
      -F miscellaneous='@miscellaneous/initial_age_moja.tiff' \
      -F miscellaneous='@miscellaneous/mean_annual_temperature_moja.tiff' \
-     -F title="run4" \
+     -F title="run5" \
      http://localhost:8080/gcbm/upload
 
     ```

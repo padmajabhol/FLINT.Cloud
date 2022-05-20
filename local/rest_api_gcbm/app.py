@@ -181,32 +181,41 @@ def gcbm_upload():
     if not os.path.exists(f"{os.getcwd()}/input/{project_dir}"):
         os.makedirs(f"{os.getcwd()}/input/{project_dir}")
     logging.debug(os.getcwd())
+    if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/disturbances"):
+        os.makedirs(f"{os.getcwd()}/input/{project_dir}/disturbances")
+    if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/classifiers"):
+        os.makedirs(f"{os.getcwd()}/input/{project_dir}/classifiers")
+    if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/db"):
+        os.makedirs(f"{os.getcwd()}/input/{project_dir}/db")
+    if os.path.exists(f"{os.getcwd()}/input/{project_dir}") and not os.path.exists(f"{os.getcwd()}/input/{project_dir}/miscellaneous"):
+        os.makedirs(f"{os.getcwd()}/input/{project_dir}/miscellaneous")
 
     # Function to flatten paths
     def fix_path(path):
         return os.path.basename(path.replace("\\", "/"))
+    
 
     if "disturbances" in request.files:
       for file in request.files.getlist("disturbances"):
-          file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+          file.save(f"{os.getcwd()}/input/{project_dir}/disturbances/{file.filename}")
     else:
       return{"error": "Missing configuration file"}, 400
 
     if "classifiers" in request.files:
         for file in request.files.getlist("classifiers"):
-          file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+          file.save(f"{os.getcwd()}/input/{project_dir}/classifiers/{file.filename}")
     else:
       return{"error": "Missing configuration file"}, 400
 
     if "db" in request.files:
         for file in request.files.getlist("db"):
-            file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+            file.save(f"{os.getcwd()}/input/{project_dir}/db/{file.filename}")
     else:
       return{"error": "Missing configuration file"}, 400
 
     if "miscellaneous" in request.files:
         for file in request.files.getlist("miscellaneous"):
-            file.save(f"{os.getcwd()}/input/{project_dir}/{file.filename}")
+            file.save(f"{os.getcwd()}/input/{project_dir}/miscellaneous/{file.filename}")
     else:
         return{"error": "Missing configuration file"}, 400
 
