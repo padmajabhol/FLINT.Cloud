@@ -17,31 +17,32 @@
     ```
 
     All the inputs are uploaded via a `POST` request
+
     ```
-curl -F disturbances='@disturbances/disturbances_2011_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2012_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2013_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2014_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2015_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2016_moja.tiff' \
-     -F disturbances='@disturbances/disturbances_2018_moja.tiff' \
-     -F classifiers='@classifiers/Classifier1_moja.tiff' \
-     -F classifiers='@classifiers/Classifier2_moja.tiff' \
-     -F db='@db/gcbm_input.db' \
-     -F miscellaneous='@miscellaneous/initial_age_moja.tiff' \
-     -F miscellaneous='@miscellaneous/mean_annual_temperature_moja.tiff' \
-     -F templates='@templates/internal_variables.json' \
-     -F templates='@templates/localdomain.json' \
-     -F templates='@templates/modules_cbm.json' \
-     -F templates='@templates/modules_output.json' \
-     -F templates='@templates/pools_cbm.json' \
-     -F templates='@templates/provider_config.json' \
-     -F templates='@templates/spinup.json' \
-     -F templates='@templates/variables.json' \
-     -F templates='@templates/gcbm_config.cfg' \
-     -F templates='@templates/output' \
-     -F title="run10" \
-     http://localhost:8080/gcbm/upload
+       curl -F disturbances='@disturbances/disturbances_2011_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2012_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2013_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2014_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2015_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2016_moja.tiff' \
+            -F disturbances='@disturbances/disturbances_2018_moja.tiff' \
+            -F classifiers='@classifiers/Classifier1_moja.tiff' \
+            -F classifiers='@classifiers/Classifier2_moja.tiff' \
+            -F db='@db/gcbm_input.db' \
+            -F miscellaneous='@miscellaneous/initial_age_moja.tiff' \
+            -F miscellaneous='@miscellaneous/mean_annual_temperature_moja.tiff' \
+            -F templates='@templates/internal_variables.json' \
+            -F templates='@templates/localdomain.json' \
+            -F templates='@templates/modules_cbm.json' \
+            -F templates='@templates/modules_output.json' \
+            -F templates='@templates/pools_cbm.json' \
+            -F templates='@templates/provider_config.json' \
+            -F templates='@templates/spinup.json' \
+            -F templates='@templates/variables.json' \
+            -F templates='@templates/gcbm_config.cfg' \
+            -F templates='@templates/output' \
+            -F title="run4" \
+            http://localhost:8080/gcbm/upload
 
     ```
 3. `/gcbm/dynamic`
