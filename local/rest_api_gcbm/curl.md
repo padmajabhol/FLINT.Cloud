@@ -10,7 +10,7 @@
 
 2. `/gcbm/upload`
 
-    Go to the location of the unzipped file `GCBM_Demo_Run.zip`
+    Go to the location of the unzipped file `GCBM_New_Demo_Run.zip`
 
     ```
         cd path-to-unzipped-file
