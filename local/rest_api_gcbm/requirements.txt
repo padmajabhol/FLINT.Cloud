@@ -11,3 +11,4 @@ flask-cors
 simplejson
 sqlalchemy
 psutil
+rasterio

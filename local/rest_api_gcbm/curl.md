@@ -44,6 +44,9 @@
             -F title="run4" \
             http://localhost:8080/gcbm/upload
 
+            sudo docker exec -it xxx  /bin/bash
+
+
     ```
 3. `/gcbm/dynamic`
 

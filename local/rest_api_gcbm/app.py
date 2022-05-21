@@ -229,6 +229,7 @@ def gcbm_upload():
         return{"error": "Missing configuration file"}, 400
 
     get_modules_cbm(project_dir)
+    get_provider_config(project_dir)
 
     return {
        "data": "All files uploaded succesfully. Proceed to the next step of the API at gcbm/dynamic."
@@ -248,7 +249,6 @@ def get_modules_cbm(project_dir):
 def get_provider_config(project_dir):
    with open(f"{os.getcwd()}/input/{project_dir}/templates/provider_config.json", "r+") as gpc:
         lst = []
-
         data = json.load(gpc)
         for file in os.listdir(f"{os.getcwd()}/input/{project_dir}/disturbances/"):
             d = dict()
@@ -276,9 +276,53 @@ def get_provider_config(project_dir):
             lst.append(d)    
         gpc.seek(0)
         data["Providers"]["RasterTiled"]["layers"] = lst
+        
+
+        Rasters = []
+        cellLatSize = []
+        cellLonSize = []
+
+        for root, dirs, files in os.walk(os.path.abspath(f"{os.getcwd()}/input/{project_dir}/disturbances/")):
+            for file in files:
+                fp = os.path.join(root, file)
+                Rasters.append(fp)
+
+        for root, dirs, files in os.walk(os.path.abspath(f"{os.getcwd()}/input/{project_dir}/classifiers/")):
+            for file in files:
+                fp1 = os.path.join(root, file)
+                Rasters.append(fp1)
+
+        for root, dirs, files in os.walk(os.path.abspath(f"{os.getcwd()}/input/{project_dir}/miscellaneous/")):
+            for file in files:
+                fp2 = os.path.join(root, file)
+                Rasters.append(fp2)
+
+        for nd in Rasters:
+            img = rst.open(nd)
+            t = img.transform
+            x = t[0]
+            y = -t[4]
+            cellLatSize.append(x)
+            cellLonSize.append(y)
+    
+        result = all(element == cellLatSize[0] for element in cellLatSize)
+        if(result):
+            cellLat = x
+            cellLon = y
+            blockLat = x*400
+            blockLon = y*400
+            tileLat = x*4000
+            tileLon = y*4000
+        else:
+             print("Corrupt files")
+
+        for i in data:
+            for key in i:
+                if key == "blockLonSize":
+                    i[key] = x
 
         json.dump(data, gpc, indent=4)
-        gpc.truncate()
+        gpc.truncate()      
         
 
 @app.route("/gcbm/dynamic", methods=["POST"])
