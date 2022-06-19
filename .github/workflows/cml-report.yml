@@ -69,8 +69,8 @@ jobs:
       
     - name: Compile Results
       run: |
-        docker exec -i gcbm-api python GCBM.CompileResults/compileresults.py sqlite:///input/run4/output/gcbm_output.db --output_db sqlite:///input/run4/output/compiled_gcbm_output.db
-        docker cp -L gcbm-api:/app/input/run4/output/compiled_gcbm_output.db output
+        docker exec -i gcbm-api python GCBM.CompileResults/compileresults.py sqlite:///output/run4/gcbm_output.db --output_db sqlite:///output/run4/compiled_gcbm_output.db
+        docker cp -L gcbm-api:/app/output/run4/compiled_gcbm_output.db output
     - name: CML
       env:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
